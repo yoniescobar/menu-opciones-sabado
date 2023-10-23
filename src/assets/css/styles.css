@@ -1,0 +1,55 @@
+
+/* Estilos para el componente de formulario*/
+.fondo-componente-forms{
+    background: #12c2e9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+    padding: 20px;
+    font-size: medium;
+    height: 100vh;
+}
+
+/* Estilos Animated Navigation Bar */
+
+.navbar-nav{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    box-shadow: 0 2px 3px 0 rgb(0, 0, .1);
+}
+
+.nav-link {
+    text-transform: uppercase;
+    color: white;
+    width: 15rem;
+    text-decoration: none;
+    line-height: 50px;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin: 5px;
+}
+
+
+/* aplicar hover a los elementos de la barra de navegacion */
+.nav-link:hover {
+    background-color: #f64f59;
+    color: white;
+    border-radius: 5px;
+    transition: all .5s ease-in-out;
+    text-overflow: clip;
+    text-align: center;
+}
+
+/* Dejar activo el elemento seleccionado */
+.nav-link.active {
+    background-color: #f64f59;
+    color: white;
+    border-radius: 5px;
+    transition: all .5s ease-in-out;
+    text-overflow: clip;
+    text-align: center;
+}
