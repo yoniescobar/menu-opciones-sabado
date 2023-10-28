@@ -13,6 +13,8 @@ const Formulario = () => {
   const [correo, setCorreo] = useState('')
   const [lista, setLista] = useState([])
   const [modoEdicion, setModoEdicion] = useState()
+  const [fitrarPersona, setFiltrarPersona] = useState([])
+  const [busqueda, setBusqueda] = useState('')
 
   /* ------------------------- Generar Codigo Automatico ------------------------- */
   const generarCodigo = () => {
@@ -150,6 +152,27 @@ const Formulario = () => {
     })
   }
 
+    /*------------ Buscar Usuario ------------*/
+
+    useEffect(() => {
+      
+      const filtrar = () => {
+        const resultado = lista.filter((item) => {
+          return(
+            item.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+            item.apellido.toLowerCase().includes(busqueda.toLowerCase()) ||
+            item.edad.toLowerCase().includes(busqueda.toLowerCase()) ||
+            item.correo.toLowerCase().includes(busqueda.toLowerCase())
+          );
+        });
+        setFiltrarPersona(resultado);
+
+      }
+      filtrar();
+    }, [busqueda, lista]) //10 registro  registro 1
+
+
+
   return (
     <div className='fondo-componente-forms'>
       <div className='container py-5'>
@@ -240,7 +263,7 @@ const Formulario = () => {
             ]}
 
 
-            data={lista}
+            data={fitrarPersona}
             noDataComponent={<h3>No hay datos para mostrar</h3>}
             pagination
             paginationComponentOptions={{
@@ -258,6 +281,8 @@ const Formulario = () => {
                 type='text'
                 placeholder='Buscar'
                 className=' w-25 form-control'
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
               />
             )}
 

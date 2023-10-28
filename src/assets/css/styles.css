@@ -47,7 +47,7 @@
 
 /* Dejar activo el elemento seleccionado */
 .nav-link.active {
-    background-color: #f64f59;
+    background-color: #80dc08;
     color: white;
     border-radius: 5px;
     transition: all .5s ease-in-out;
