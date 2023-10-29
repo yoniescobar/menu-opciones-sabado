@@ -22,6 +22,9 @@ const Navbar = () => {
             <li className="nav-item active">
             <NavLink className="nav-link navbar-dark" activeClassName="active" to='/formulario'>Formulario</NavLink>
             </li>
+            <li className="nav-item active">
+            <NavLink className="nav-link navbar-dark" activeClassName="active" to='/persistencia'>Persistencia</NavLink>
+            </li>
           </ul>
         </div>
       </div>

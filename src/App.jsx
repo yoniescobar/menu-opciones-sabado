@@ -3,6 +3,7 @@ import NavBar from './components/navegacion/NavBar'
 import Inicio from './components/paginas/Inicio'
 import ApiRickMorty from './components/paginas/ApiRickMorty'
 import Formulario from './components/paginas/Formulario'
+import Persistencia from './components/paginas/Persistencia'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<Inicio />} />
           <Route path="/api-rick-morty" element={<ApiRickMorty />} />
           <Route path="/formulario" element={<Formulario />} />
+          <Route path="/persistencia" element={<Persistencia />} />
         </Routes>
       </Router>
     </div>
