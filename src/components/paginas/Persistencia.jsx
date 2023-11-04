@@ -1,5 +1,6 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
+import Swal from "sweetalert2"
 
 const Persistencia = () => {
 
@@ -45,7 +46,7 @@ const Persistencia = () => {
             setTitle('Nuevo Contacto')
         } else if (op === 2) {
             setTitle('Editar Contacto')
-            setId(contact.id)
+            setId(contact.id) // id del contacto a editar (1,2,3,4,5)
             setName(contact.name)
             setPhone(contact.phone)
             setEmail(contact.email)
@@ -53,42 +54,154 @@ const Persistencia = () => {
         document.getElementById('name').focus()
     }
 
-    //---------------- funcion para validar los campos del formulario ----------------//
+
+    //-----------------funcion para editar un contacto----------------//
 
 
-    const validar = () => {
-        if(name === ''){
-            alert('Ingrese nombre')
-        }else if(phone === ''){
-            alert('Ingrese telefono')
-        }else if(email === ''){
-            alert('Ingrese email')
-        }else{
-            if(operacion === 1){
-                addContact()
-            }else if(operacion === 2){
-                // updateContact()
-                }
-        }
-    }
 
-    //-----------------funcion para agregar un contacto----------------//
-
-    const addContact = async () => {
+    const updateContact = async () => {
         try {
-            const response = await axios.post(url, {
+            const response = await axios.put(url + '/' + id, {
                 name: name,
                 phone: phone,
                 email: email
             })
             console.log(response)
             await getContactos()
-            alert('Contacto agregado')
+            Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Contacto actualizado',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
             document.getElementById('btnCerrar').click()
         } catch (error) {
             console.log(error)
         }
-    
+    }
+
+
+
+    //---------------- funcion para validar los campos del formulario ----------------//
+
+
+    const validar = () => {
+        if (name === '') {
+            
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Ingrese nombre',
+                showConfirmButton: false,
+                timer: 1500
+            })
+
+
+        } else if (phone === '') {
+
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title: 'Ingrese telefono',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        } else if (email === '') {
+                
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Ingrese email',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+        } else {
+            if (operacion === 1) {
+                addContact()
+            } else if (operacion === 2) {
+                updateContact()
+            }
+        }
+    }
+
+
+
+
+    //-----------------funcion para agregar un contacto----------------//
+
+    const addContact = async () => {
+        Swal.fire({
+            title: '¿Está seguro de agregar este Registro?',
+            text: name,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Si, agregar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axios.post(url, {
+                        name: name,
+                        phone: phone,
+                        email: email
+                    })
+                    console.log(response)
+                    await getContactos()
+
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'El registro se agregó correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+                    document.getElementById('btnCerrar').click()
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
+
+        })
+
+    }
+
+
+    //-----------------funcion para eliminar un contacto----------------//
+
+    const deleteContact = async (contact) => {
+        Swal.fire({
+            title: '¿Está seguro de eliminar este Registro?',
+            text: contact.name,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axios.delete(url + '/' + contact.id) // http://localhost:3000/contacts/1
+                    console.log(response)
+                    await getContactos()
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: `Se elimino el contacto: ${contact.name} con id: ${contact.id}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })
     }
 
 
@@ -132,7 +245,7 @@ const Persistencia = () => {
                                             <button onClick={() => openModal(2, contact)} className='btn btn-sm btn-outline-warning mx-1' data-bs-toggle='modal' data-bs-target='#modalClientes' >
                                                 <i className='fa-solid fa-pencil'></i>
                                             </button>
-                                            <button className='btn btn-sm btn-outline-danger'>
+                                            <button onClick={() => deleteContact(contact)} className='btn btn-sm btn-outline-danger'>
                                                 <i className="fa-solid fa-trash-can"></i>
                                             </button>
                                         </td>
@@ -191,7 +304,7 @@ const Persistencia = () => {
                             </div>
                             {/* Boton Guardar */}
                             <div className='d-grid col-6 mx-auto'>
-                                <button onClick={()=>validar()} className='btn btn-success btn-block'>
+                                <button onClick={() => validar()} className='btn btn-success btn-block'>
                                     <i className='fa-solid fa-save'></i> Guardar
                                 </button>
                             </div>
